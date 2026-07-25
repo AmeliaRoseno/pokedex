@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokedex Diary - Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-red-600 text-white px-6 py-4 flex gap-6 items-center">
+        <span class="font-bold text-xl">Pokédex Diary</span>
+        <a href="index.html" class="hover:underline">Homepage</a>
+        <a href="pokedex.html" class="hover:underline">Pokédex</a>
+    </nav>
+
+    <main class="p-6">
+        <h1 class="text-2xl font-semibold">Welcome to the Homepage</h1>
+
+        <form id="search-form" class="mb-6 flex gap-2">
+            <input
+                type="text"
+                id="search-input"
+                placeholder="Search by name or ID..."
+                class="border rounded px-3 py-2 flex-1"
+            />
+            <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded">
+                Search
+            </button>
+        </form>
+
+        <dialog id="search-dialog" class="rounded-lg p-6">
+            <div id="search-dialog-content"></div>
+            <button id="search-dialog-close" class="mt-4 bg-gray-200 px-3 py-1 rounded">
+                Close
+            </button>
+        </dialog>
+
+        <div id="pokemon-list" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+    </main>
+
+    <script src="main.js"></script>
+</body>
+</html>

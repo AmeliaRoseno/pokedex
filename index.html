@@ -16,6 +16,26 @@
 
     <main class="p-6">
         <h1 class="text-2xl font-semibold">Welcome to the Homepage</h1>
+
+        <form id="search-form" class="mb-6 flex gap-2">
+            <input
+                type="text"
+                id="search-input"
+                placeholder="Search by name or ID..."
+                class="border rounded px-3 py-2 flex-1"
+            />
+            <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded">
+                Search
+            </button>
+        </form>
+
+        <dialog id="search-dialog" class="rounded-lg p-6">
+            <div id="search-dialog-content"></div>
+            <button id="search-dialog-close" class="mt-4 bg-gray-200 px-3 py-1 rounded">
+                Close
+            </button>
+        </dialog>
+
         <div id="pokemon-list" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
     </main>
 

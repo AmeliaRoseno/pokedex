@@ -54,3 +54,52 @@ function renderPokemonCards(pokemonList) {
 }
 
 getPokemonList();
+
+const searchForm = document.getElementById('search-form');
+const searchInput = document.getElementById('search-input');
+const searchDialog = document.getElementById('search-dialog');
+const searchDialogContent = document.getElementById('search-dialog-content');
+const searchDialogClose = document.getElementById('search-dialog-close');
+
+searchForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const query = searchInput.value.trim().toLowerCase();
+
+  // Clear old content before showing new results
+  searchDialogContent.textContent = '';
+
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${query}`);
+
+    if (!response.ok) {
+      throw new Error('Not found');
+    }
+
+    const pokemon = await response.json();
+
+    const image = document.createElement('img');
+    image.src = pokemon.sprites.front_default;
+    image.alt = pokemon.name;
+    image.className = 'w-24 h-24 mx-auto';
+
+    const name = document.createElement('h2');
+    name.textContent = pokemon.name;
+    name.className = 'text-lg font-bold capitalize text-center';
+
+    searchDialogContent.appendChild(image);
+    searchDialogContent.appendChild(name);
+
+  } catch (error) {
+    const errorMessage = document.createElement('p');
+    errorMessage.textContent = `No Pokémon found for "${query}".`;
+    errorMessage.className = 'text-red-600';
+    searchDialogContent.appendChild(errorMessage);
+  }
+
+  searchDialog.showModal();
+});
+
+searchDialogClose.addEventListener('click', () => {
+  searchDialog.close();
+});

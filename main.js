@@ -42,11 +42,20 @@ function renderPokemonCards(pokemonList) {
     weight.textContent = `Weight: ${pokemon.weight}`;
     weight.className = 'text-sm text-gray-600';
 
+    // Catch button
+    const catchButton = document.createElement('button');
+    catchButton.textContent = "Catch'em!";
+    catchButton.className = 'mt-3 bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600';
+    catchButton.addEventListener('click', () => {
+      catchPokemon(pokemon);
+    });
+
     // Assemble the card
     card.appendChild(image);
     card.appendChild(name);
     card.appendChild(height);
     card.appendChild(weight);
+    card.appendChild(catchButton);
 
     // Add card to the page
     container.appendChild(card);
@@ -54,6 +63,32 @@ function renderPokemonCards(pokemonList) {
 }
 
 getPokemonList();
+
+function catchPokemon(pokemon) {
+  const caught = JSON.parse(localStorage.getItem('caughtPokemon')) || [];
+
+  // Avoid catching the same Pokemon twice
+  const alreadyCaught = caught.some((p) => p.name === pokemon.name);
+  if (alreadyCaught) {
+    alert(`You already caught ${pokemon.name}!`);
+    return;
+  }
+
+  // Only store the fields we actually need (keeps localStorage lean)
+  const pokemonToStore = {
+    name: pokemon.name,
+    image: pokemon.sprites.front_default,
+    height: pokemon.height,
+    weight: pokemon.weight,
+    types: pokemon.types.map((t) => t.type.name),
+    note: '' // we'll use this in Step 7 for personal notes
+  };
+
+  caught.push(pokemonToStore);
+  localStorage.setItem('caughtPokemon', JSON.stringify(caught));
+
+  alert(`${pokemon.name} was caught!`);
+}
 
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search-input');

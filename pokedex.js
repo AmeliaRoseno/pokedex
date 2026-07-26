@@ -51,12 +51,21 @@ function renderCaughtPokemon(pokemonList) {
             saveNote(pokemon.name, noteInput.value);
         });
 
+        // Release button
+        const releaseButton = document.createElement('button');
+        releaseButton.textContent = 'Release';
+        releaseButton.className = 'mt-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600';
+        releaseButton.addEventListener('click', () => {
+            releasePokemon(pokemon.name);
+        });
+
         card.appendChild(image);
         card.appendChild(name);
         card.appendChild(height);
         card.appendChild(weight);
         card.appendChild(types);
         card.appendChild(noteInput);
+        card.appendChild(releaseButton);
 
         container.appendChild(card);
     });
@@ -75,4 +84,15 @@ function saveNote(pokemonName, newNote) {
     });
 
     localStorage.setItem('caughtPokemon', JSON.stringify(updated));
+}
+
+function releasePokemon(pokemonName) {
+  const caught = JSON.parse(localStorage.getItem('caughtPokemon')) || [];
+
+  const updated = caught.filter((pokemon) => pokemon.name !== pokemonName);
+
+  localStorage.setItem('caughtPokemon', JSON.stringify(updated));
+
+  // Re-render the page immediately, without needing a manual reload
+  renderCaughtPokemon(updated);
 }

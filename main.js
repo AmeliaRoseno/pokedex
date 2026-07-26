@@ -10,6 +10,7 @@ async function getPokemonList() {
     })
   );
 
+  document.getElementById('loading-message').remove();
   renderPokemonCards(allDetails);
 }
 

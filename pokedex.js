@@ -40,14 +40,39 @@ function renderCaughtPokemon(pokemonList) {
         types.textContent = `Type: ${pokemon.types.join(', ')}`;
         types.className = 'text-sm text-gray-600 capitalize';
 
+        // Note input
+        const noteInput = document.createElement('textarea');
+        noteInput.value = pokemon.note || '';
+        noteInput.placeholder = 'Write a note about this Pokémon...';
+        noteInput.className = 'mt-2 w-full border rounded p-2 text-sm';
+        noteInput.rows = 2; 
+
+        noteInput.addEventListener('change', () => {
+            saveNote(pokemon.name, noteInput.value);
+        });
+
         card.appendChild(image);
         card.appendChild(name);
         card.appendChild(height);
         card.appendChild(weight);
         card.appendChild(types);
+        card.appendChild(noteInput);
 
         container.appendChild(card);
     });
 }
 
 loadCaughtPokemon();
+
+function saveNote(pokemonName, newNote) {
+    const caught = JSON.parse(localStorage.getItem('caughtPokemon')) || [];
+
+    const updated = caught.map((pokemon) => {
+        if (pokemon.name === pokemonName) {
+            return { ...pokemon, note: newNote };
+        }
+        return pokemon;
+    });
+
+    localStorage.setItem('caughtPokemon', JSON.stringify(updated));
+}
